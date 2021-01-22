@@ -26,8 +26,9 @@ export class ErrorHandlerService {
      
     if (err.error instanceof Error) {
       // Client-side error
-      console.error('Client-side request error');
-      console.error(err.error);
+      
+      this.logger.error('Client-side request error');
+      this.logger.error(err.error);
     } else {
       // Server-generated error
       let error = err.error;
@@ -38,7 +39,7 @@ export class ErrorHandlerService {
           error = null;
         }
       }
-      console.error(err.status);
+      this.logger.error(err.status);
 
       switch (err.status) {
         case ErrorStatus.INVALID_REQUEST:

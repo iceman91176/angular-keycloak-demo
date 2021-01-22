@@ -1,0 +1,5 @@
+APP_KEYCLOAK_URL=https://FQDN/auth
+APP_KEYCLOAK_REALM=REALM
+APP_KEYCLOAK_CLIENT_ID=angular-keycloak-demo
+APP_API_URL=https://api-gw-base-url
+APP_API_SMDBPATH=/smdb

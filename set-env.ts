@@ -11,44 +11,63 @@ require('dotenv').config();
 const environment = argv.environment;
 const isProd = environment === 'prod';
 
+let logLevel = "1";
+if(!isProd){
+  logLevel = "NgxLoggerLevel.DEBUG";
+}
+
+const configPath = `./src/assets/configdata/appconfig.json`;
+let configFile=`{}`;
+if(!isProd){
+configFile = `{
+"APP_KEYCLOAK_URL":"${process.env.APP_KEYCLOAK_URL}",
+"APP_KEYCLOAK_REALM":"${process.env.APP_KEYCLOAK_REALM}",
+"APP_KEYCLOAK_CLIENT_ID":"${process.env.APP_KEYCLOAK_CLIENT_ID}",
+"APP_API_URL":"${process.env.APP_API_URL}",
+"APP_API_PATH_SMDB":"${process.env.APP_API_SMDBPATH}"
+}
+`
+}
+
 const targetPath = `./src/environments/environment.${environment}.ts`;
 const envConfigFile = `
 import {  NgxLoggerLevel } from 'ngx-logger';
-import {KeycloakConfig} from 'keycloak-js'
-
 let LOGGER_CONFIG = {
-    //serverLoggingUrl: '/api/logs',
-    level: NgxLoggerLevel.DEBUG,
+    level: ${logLevel},
     serverLogLevel: NgxLoggerLevel.OFF
 };
-
-// Add here your keycloak setup infos
-
-let keycloakConfig: KeycloakConfig = {
-  url: "${process.env.KEYCLOAK_SERVER_URL}",
-  realm: "${process.env.KEYCLOAK_REALM}",
-  clientId: "${process.env.KEYCLOAK_CLIENT_ID}"
-};
-
-let smdbConfig = {
-    url: '${process.env.API_SMDB_URL}'
-}
-
 export const environment = {
   production: ${isProd},
-  apiUrl:'${process.env.API_URL}',
-  keycloak: keycloakConfig,
-  smdbConfig: smdbConfig,
-  loggerConfig: LOGGER_CONFIG
-
+  loggerConfig:LOGGER_CONFIG
 };
-
 `
 
 writeFile(targetPath, envConfigFile, function (err) {
   if (err) {
     console.log(err);
   }
-
-  console.log(`Output generated at ${targetPath}`);
+  console.log(`ENV-Output generated at ${targetPath}`);
 });
+
+writeFile(configPath, configFile, function (err) {
+  if (err) {
+    console.log(err);
+  }
+  console.log(`Config-File generated at ${configPath}`);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 
 import { NGXLogger } from 'ngx-logger';
 import { AlertService } from '@full-fledged/alerts';
-import { CatalogService } from '@core/services/services';
+import { CatalogService } from '@core/services';
 import {
     ProductItemDto,  NamedProductCatalogDto,
 } from '@splapi/models';

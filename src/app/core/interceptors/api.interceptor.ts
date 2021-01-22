@@ -1,6 +1,6 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ErrorHandlerService } from '@core/services/error-handler.service';
+import { ErrorHandlerService, AppConfigService } from '@core/services';
 import { NextRequestState } from './next-request-state';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -16,12 +16,14 @@ export class ApiInterceptor implements HttpInterceptor {
 
   constructor(
     private nextRequestState: NextRequestState,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    private appConfig: AppConfigService
     ) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!req.url.includes(environment.apiUrl)) {
+
+    if (!req.url.includes(this.appConfig.apiConfig.url)) {
       // This is not a request to the API! proceed as is
       return next.handle(req);
     }

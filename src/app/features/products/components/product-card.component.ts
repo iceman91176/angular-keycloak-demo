@@ -8,7 +8,7 @@ import {Subscription} from 'rxjs';
 import { Observable,throwError,of  } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import {SplTranslatePipe} from '@shared/shared.module';
-import {ProductSearchService,ProductService} from '@core/services/services';
+import {ProductSearchService,ProductService} from '@core/services';
 import {
     ProductItemDto, NamedProductCatalogDto, MoneyItemDto,
 } from '@splapi/models';

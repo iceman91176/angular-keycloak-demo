@@ -1,0 +1,94 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { KeycloakConfig } from 'keycloak-js';
+import {  NgxLoggerLevel, LoggerConfig } from 'ngx-logger';
+import t from 'typy';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AppConfigService {
+
+  private _config: any = {};
+
+  constructor(private http: HttpClient) { }
+
+  get data(): any {
+    return this._config ? { ...this._config } : {};
+  }
+
+  get logConfig():LoggerConfig{
+
+    let logger=new LoggerConfig();
+    logger.level = this._config["logLevel"] || 1;
+    logger.serverLogLevel = this._config["serverLogLevel"] || 1;
+    logger.serverLoggingUrl="";
+    logger.disableConsoleLogging=false;
+    logger.httpResponseType="json";
+
+    return logger;
+
+  }
+
+  get apiConfig():any{
+
+    let apiPathSmdb="/smdb";
+
+
+    if(t(this._config.apiPathSmdb).isDefined){
+
+      apiPathSmdb = this._config["apiPathSmdb"];
+    }
+
+    let apiConfig = {
+        url: this._config["apiUrl"],
+        smdbApi: this._config["apiUrl"] + apiPathSmdb
+    }
+    return apiConfig;
+  }
+
+  get keyCloakResourceId():string{
+
+    return this._config["keycloakResourceId"]
+  }
+
+  get keycloakConfig():any{
+    let keycloakConfig: KeycloakConfig = {
+      url: this._config["keycloakUrl"],
+      realm: this._config["keycloakRealm"],
+      clientId: this._config["keycloakClientId"]
+    };
+
+    return keycloakConfig;
+  }
+
+  //loadAppConfig(): Observable<any> {
+  loadAppConfig() {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+
+
+    return this.http.get(`/assets/configdata/appconfig.json?cb=${new Date().getTime()}`, { headers }).toPromise()
+      .then(data => {
+        //console.log(data);
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            this._config[key.replace('APP_', '').toLowerCase().split('_').map((el, i) => (i > 0 ? el.charAt(0).toUpperCase() + el.slice(1) : el)).join('')] = data[key];
+          }
+        }
+        //console.log(this._config);
+        return this._config;
+
+        //this._config = data;
+    })
+    .catch((data) => {
+      console.log("Error loading application config: ",data );
+
+    });
+
+
+  }
+
+
+}
