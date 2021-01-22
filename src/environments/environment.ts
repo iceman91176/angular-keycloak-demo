@@ -15,10 +15,15 @@ let keycloakConfig: KeycloakConfig = {
   clientId: "dummy"
 };
 
+let smdbConfig = {
+    url: 'dummy'
+}
+
 export const environment = {
   production: false,
   apiUrl:'dummy',
   keycloak: keycloakConfig,
+  smdbConfig: smdbConfig,
   loggerConfig: LOGGER_CONFIG
 };
 

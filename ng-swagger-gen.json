@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/ng-swagger-gen/ng-swagger-gen-schema.json",
+  "swagger": "./swagger/smdb.json",
+  "output": "./src/app/api",
+  "includeTags": [
+  "PartnerRetrieval_V2",
+  "PartnerMgmt_V1",
+  "ProductSearch_V1",
+  "ProductAttribute_V1",
+  "ProductCatalog_V1",
+  "PrimaryAttribute_V1"
+  ],
+  "ignoreUnusedModels": true,
+  "minParamsForContainer": 2,
+  "sortParams": "desc",
+  "defaultTag": "Api",
+  "removeStaleFiles": true,
+  "modelIndex": true,
+  "serviceIndex": true,
+  "apiModule": true,
+  "enumModule": true,
+  "generateExamples": false
+}
