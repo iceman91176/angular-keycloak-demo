@@ -4,6 +4,7 @@ Konfiguration ueber ENV-Variablen. Diese werden zur Laufzeit per XHR-Request aus
 
 Das Schema ist
 
+```
 {
 "APP_KEYCLOAK_URL":"https://KEYCLOAK-FQDN/auth",
 "APP_KEYCLOAK_REALM":"REALM-NAME",
@@ -11,6 +12,7 @@ Das Schema ist
 "APP_API_URL":"BASE-URL-TO-API-GATEWAY",
 "APP_API_SMDBPATH":"/smdb"
 }
+```
 
 Im DEV-Profil wird diese Datei automatisch aus Umgebungsvariablen erzeugt. Hier kann die Datei dotenv.example als Vorlage verwendet werden.
 Produktiv kann die Datei z.B: ueber eine Kubernetes-Configmap eingebunden werden
